@@ -8,4 +8,6 @@ def ShowLoginPage(request):
 	return render(request, 'login_page.html')
 
 def doLogin(request):
-	return render(request, 'dashboard.html')
+	return render(request, 'AdminTemplates/dashboard.html')
+
+
