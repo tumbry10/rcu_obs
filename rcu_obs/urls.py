@@ -21,6 +21,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', views.ShowLoginPage, name='ShowLoginPage'),
     path('doLogin', views.doLogin, name='doLogin'),
+    path('admin_home', AdminViews.admin_home, name='admin_home'),
     path('add_hostel', AdminViews.add_hostel, name='add_hostel'),
     path('add_hostel_save', AdminViews.add_hostel_save, name='add_hostel_save'),
     path('add_room', AdminViews.add_room, name='add_room'),

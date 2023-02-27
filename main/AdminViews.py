@@ -5,7 +5,7 @@ from main.models import *
 
 
 def admin_home(request):
-	return render(request, 'hod_templates/home_content.html')
+	return render(request, 'AdminTemplates/dashboard.html')
 
 
 def add_hostel(request):

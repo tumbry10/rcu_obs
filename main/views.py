@@ -1,4 +1,8 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect, HttpResponseRedirect, HttpResponse
+from django.contrib import messages
+#from django.contrib.auth.models import User, auth
+from django.contrib.auth import authenticate, login
+
 
 # Create your views here.
 def home(request):
@@ -8,6 +12,21 @@ def ShowLoginPage(request):
 	return render(request, 'login_page.html')
 
 def doLogin(request):
-	return render(request, 'AdminTemplates/dashboard.html')
+	if request.method == 'POST':
+		username = request.POST['username']
+		password = request.POST['password']
+
+		user = authenticate(username = username, password = password)
+		#if user is not None
+		if user != None:
+			login(request, user)
+			if user.user_type=="1":
+				return HttpResponseRedirect('/admin_home')
+			else:
+				return HttpResponse("Student Login" +str(user.user_type))
+		else:
+			messages.error(request, 'INVALID LOGIN DETAILS')
+			return HttpResponseRedirect("/")
+
 
 
