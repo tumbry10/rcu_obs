@@ -1,0 +1,68 @@
+{% extends 'AdminTemplates/base.html' %}
+
+{% block page_tittle %}
+Edit Hostel | {{ hostel.hostel_name }} | Hostel ID: {{ hostel.id }}
+{% endblock page_tittle %}
+
+{% block main_content %}
+<!-- Main content -->
+    <section class="content">
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-md-12">
+            <!-- general form elements -->
+            <div class="card card-primary">
+              <div class="card-header">
+                <h3 class="card-title">Edit Hostel</h3>
+              </div>
+              <!-- /.card-header -->
+              <!-- form start -->
+              <form role="form" action="/edit_hostel_save" method="POST">
+                {% csrf_token %}
+                <div class="card-body">
+                  <div class="form-group">
+                    <label>Hostel Name</label>
+                    <input type="text" class="form-control" name="hostel_name" value="{{ hostel.hostel_name }}">
+                    <input type="hidden" class="form-control" name="hostel_id" value="{{ hostel.id }}">
+                  </div>
+                  <div class="form-group">
+                    <label>Gender</label>
+                    <select class="form-control" name="gender">
+                      <option {% if hostel.gender == "Male" %} selected {% endif %}>Male</option>
+                      <option {% if hostel.gender == "Female" %} selected {% endif %}>Female</option>
+                    </select>
+                  </div>
+                  <div class="form-group">
+                    <label>Price</label>
+                    <div class="input-group-prepend">
+                      <span class="input-group-text">$</span><input type="number" class="form-control" name="price" value="{{ hostel.price }}">
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    {% if messages %}
+                      {% for message in messages %}
+                      {% if message.tags == 'error' %}
+                      <div class="alert alert-danger" style="margin-top: 10px">{{ message }}</div>
+                      {% endif %}
+                      {% if message.tags == 'success' %}
+                      <div class="alert alert-success" style="margin-top: 10px">{{ message }}</div>
+                      {% endif %}
+                      {% endfor %}
+                    {% endif %}
+                  </div>
+                </div>
+                <!-- /.card-body -->
+
+                <div class="card-footer">
+                  <button type="submit" class="btn btn-primary btn-block">Save Hostel</button>
+                </div>
+              </form>
+            </div>
+            <!-- /.card -->
+
+          </div>
+        </div>
+      </div>
+    </section>
+
+{% endblock main_content %}

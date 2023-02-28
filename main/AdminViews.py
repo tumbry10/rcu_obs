@@ -89,14 +89,79 @@ def add_student_save(request):
 		sex = request.POST.get('sex')
 		level= request.POST.get('level')
 
-		#try:
-		user = CustomUser.objects.create_user(username=username, password=password, email=email, last_name=last_name, first_name=first_name, user_type=2)
-		user.students.registration_number = username
-		program_obj = Programmes.objects.get(id=prog_id)
-		user.students.prog_id = program_obj
+		try:
+			user = CustomUser.objects.create_user(username=username, password=password, email=email, last_name=last_name, first_name=first_name, user_type=2)
+			user.students.registration_number = username
+			program_obj = Programmes.objects.get(id=prog_id)
+			user.students.prog_id = program_obj
 
-		user.students.gender = sex
-		user.students.level=level
-		user.save()
-		messages.success(request, 'Successfully Added Student')
-		return HttpResponseRedirect('/add_student')
+			user.students.gender = sex
+			user.students.level=level
+			user.save()
+			messages.success(request, 'Successfully Added Student')
+			return HttpResponseRedirect('/add_student')
+
+		except:
+			messages.error(request, 'Failed to Add Student, Retry')
+			return HttpResponseRedirect('/add_student')
+
+def manage_hostel(request):
+	hostels=Hostels.objects.all()
+	return render(request, 'AdminTemplates/manage_hostel_template.html', {'hostels':hostels})
+
+def manage_room(request):
+	rooms=Rooms.objects.all()
+	return render(request, 'AdminTemplates/manage_room_template.html', {'rooms':rooms})
+
+def edit_hostel(request, hostel_id):
+	hostel=Hostels.objects.get(id=hostel_id)
+	return render(request, 'AdminTemplates/edit_hostel_template.html', {'hostel':hostel})
+
+def edit_hostel_save(request):
+	if request.method != 'POST':
+		return HttpResponse('<h2>METHOD NOT ALLOWED </h2>')
+	else:
+		hostel_id=request.POST.get('hostel_id')
+		hostel_name=request.POST.get('hostel_name')
+		gender=request.POST.get('gender')
+		price=request.POST.get('price')
+
+		try:
+			hostel = Hostels.objects.get(id=hostel_id)
+			hostel.hostel_name=hostel_name
+			hostel.gender=gender
+			hostel.price=price
+			hostel.save()
+			messages.success(request, 'Hostel Successfully Edited')
+			return HttpResponseRedirect('/edit_hostel/'+hostel_id)
+
+		except:
+			messages.error(request, 'Failed to Edit Room, Retry')
+			return HttpResponseRedirect('/edit_hostel/'+hostel_id)
+
+def edit_room(request, room_id):
+	room=Rooms.objects.get(id=room_id)
+	hostels=Hostels.objects.all()
+	return render(request, 'AdminTemplates/edit_room_template.html', {'room':room, 'hostels':hostels})
+
+def edit_room_save(request):
+	if request.method != 'POST':
+		return HttpResponse('<h2>METHOD NOT ALLOWED </h2>')
+	else:
+		room_id = request.POST.get('room_id')
+		room_name = request.POST.get('room_name')
+		hostel_id = request.POST.get('hostel')
+
+		try:
+			room = Rooms.objects.get(id=room_id)
+			room.room_name=room_name
+
+			hostel=Hostels.objects.get(id=hostel_id)
+			room.hostel_id=hostel
+			room.save()
+			messages.success(request, 'Room Successfully Edited')
+			return HttpResponseRedirect('/edit_room/'+room_id)
+
+		except:
+			messages.error(request, 'Failed to Edit Room, Retry')
+			return HttpResponseRedirect('/edit_room/'+room_id)

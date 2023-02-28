@@ -30,4 +30,10 @@ urlpatterns = [
     path('add_course_save', AdminViews.add_course_save, name='add_course_save'),
     path('add_student', AdminViews.add_student, name='add_student'),
     path('add_student_save', AdminViews.add_student_save, name='add_student_save'),
+    path('manage_hostel', AdminViews.manage_hostel, name='manage_hostel'),
+    path('manage_room', AdminViews.manage_room, name='manage_room'),
+    path('edit_hostel/<str:hostel_id>', AdminViews.edit_hostel, name='edit_hostel'),
+    path('edit_hostel_save', AdminViews.edit_hostel_save, name='edit_hostel_save'),
+    path('edit_room/<str:room_id>', AdminViews.edit_room, name='edit_room'),
+    path('edit_room_save', AdminViews.edit_room_save, name='edit_room_save'),
 ]
