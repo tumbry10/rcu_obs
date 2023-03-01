@@ -26,7 +26,8 @@
           <!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
           <li class="nav-item">
-            <a href="/add_course" class="nav-link active">
+            {% url 'add_course' as add_course %}
+            <a href="{{ add_course }}" class="nav-link {% if request.path == add_course %} active {% endif %}">
               <i class="nav-icon fas fa-tachometer-alt"></i>
               <p>
                 Add Program
@@ -35,7 +36,7 @@
             </a>
           </li>
           <li class="nav-item">
-            <a href="/manage_course" class="nav-link active">
+            <a href="/manage_course" class="nav-link">
               <i class="nav-icon fas fa-tachometer-alt"></i>
               <p>
                 Manage Program
@@ -44,7 +45,8 @@
             </a>
           </li>
           <li class="nav-item">
-            <a href="/add_student" class="nav-link active">
+            {% url 'add_student' as add_student %}
+            <a href="{% url 'add_student' %}" class="nav-link {% if request.path == add_student %} active {% endif %}">
               <i class="nav-icon fas fa-tachometer-alt"></i>
               <p>
                 Add Student
@@ -53,7 +55,7 @@
             </a>
           </li>
           <li class="nav-item">
-            <a href="/manage_student" class="nav-link active">
+            <a href="/manage_student" class="nav-link">
               <i class="nav-icon fas fa-tachometer-alt"></i>
               <p>
                 Manage Student
@@ -62,7 +64,8 @@
             </a>
           </li>
           <li class="nav-item">
-            <a href="/add_hostel" class="nav-link active">
+            {% url 'add_hostel' as add_hostel %}
+            <a href="{% url 'add_hostel' %}" class="nav-link {% if request.path == add_hostel %} active {% endif %}">
               <i class="nav-icon fas fa-tachometer-alt"></i>
               <p>
                 Add Hostel
@@ -71,7 +74,9 @@
             </a>
           </li>
           <li class="nav-item">
-            <a href="/manage_hostel" class="nav-link active">
+            {% url 'manage_hostel' as manage_hostel %}
+            {% url 'edit_hostel' hostel_id=id as edit_hostel %}
+            <a href="{% url 'manage_hostel' %}" class="nav-link {% if request.path == manage_hostel %} active {% endif %} {% if request.path == edit_hostel %} active {% endif %}">
               <i class="nav-icon fas fa-tachometer-alt"></i>
               <p>
                 Manage Hostel
@@ -80,7 +85,8 @@
             </a>
           </li>
           <li class="nav-item">
-            <a href="/add_room" class="nav-link active">
+            {% url 'add_room' as add_room %}
+            <a href="{% url 'add_room' %}" class="nav-link {% if request.path == add_room %} active {% endif %}">
               <i class="nav-icon fas fa-tachometer-alt"></i>
               <p>
                 Add Room
@@ -89,7 +95,9 @@
             </a>
           </li>
           <li class="nav-item">
-            <a href="/manage_room" class="nav-link active">
+            {% url 'manage_room' as manage_room %}
+            {% url 'edit_room' room_id=id as edit_room %}
+            <a href="{% url 'manage_room' %}" class="nav-link {% if request.path == manage_room %} active {% endif %} {% if request.path == edit_room %} active {% endif %}">
               <i class="nav-icon fas fa-tachometer-alt"></i>
               <p>
                 Manage Room
@@ -98,7 +106,7 @@
             </a>
           </li>
           <li class="nav-item">
-            <a href="/add_staff" class="nav-link active">
+            <a href="/add_staff" class="nav-link">
               <i class="nav-icon fas fa-tachometer-alt"></i>
               <p>
                 Student Feedback

@@ -115,7 +115,7 @@ def manage_room(request):
 
 def edit_hostel(request, hostel_id):
 	hostel=Hostels.objects.get(id=hostel_id)
-	return render(request, 'AdminTemplates/edit_hostel_template.html', {'hostel':hostel})
+	return render(request, 'AdminTemplates/edit_hostel_template.html', {'hostel':hostel, 'id':hostel_id})
 
 def edit_hostel_save(request):
 	if request.method != 'POST':
@@ -142,7 +142,7 @@ def edit_hostel_save(request):
 def edit_room(request, room_id):
 	room=Rooms.objects.get(id=room_id)
 	hostels=Hostels.objects.all()
-	return render(request, 'AdminTemplates/edit_room_template.html', {'room':room, 'hostels':hostels})
+	return render(request, 'AdminTemplates/edit_room_template.html', {'room':room, 'hostels':hostels, 'id':room_id})
 
 def edit_room_save(request):
 	if request.method != 'POST':
