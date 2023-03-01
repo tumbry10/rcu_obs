@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect, HttpResponseRedirect, HttpResponse
 from django.contrib import messages
 #from django.contrib.auth.models import User, auth
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
 
 
 # Create your views here.
@@ -28,5 +28,6 @@ def doLogin(request):
 			messages.error(request, 'INVALID LOGIN DETAILS')
 			return HttpResponseRedirect("/")
 
-
-
+def logout_user(request):
+	logout(request)
+	return HttpResponseRedirect ("/")
