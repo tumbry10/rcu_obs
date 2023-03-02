@@ -2,6 +2,7 @@ from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib import messages
 from main.models import *
+from main.forms import AddStudentForm
 
 
 def admin_home(request):
@@ -71,8 +72,8 @@ def add_course_save(request):
 			return HttpResponseRedirect('/add_course')
 
 def add_student(request):
-	programmes=Programmes.objects.all()    #for programs to show on the add students page
-	return render(request, 'AdminTemplates/add_student_template.html', {"programmes":programmes})
+	form=AddStudentForm()
+	return render(request, 'AdminTemplates/add_student_template.html', {'form':form})
 
 
 def add_student_save(request):
@@ -80,30 +81,36 @@ def add_student_save(request):
 		return HttpResponse('Method Not Allowed')
 
 	else:
-		username=request.POST.get('username')
-		first_name=request.POST.get('first_name')
-		last_name=request.POST.get('last_name')
-		email=request.POST.get('email')
-		password=request.POST.get('password')
-		prog_id = request.POST.get('programmes')
-		sex = request.POST.get('sex')
-		level= request.POST.get('level')
+		form=AddStudentForm(request.POST, request.FILES)
+		if form.is_valid():
+			username=form.cleaned_data['username']
+			first_name=form.cleaned_data['first_name']
+			last_name=form.cleaned_data['last_name']
+			email=form.cleaned_data['email']
+			password=form.cleaned_data['password']
+			prog_id = form.cleaned_data['programmes']
+			sex = form.cleaned_data['sex']
+			level= form.cleaned_data['level']
 
-		try:
-			user = CustomUser.objects.create_user(username=username, password=password, email=email, last_name=last_name, first_name=first_name, user_type=2)
-			user.students.registration_number = username
-			program_obj = Programmes.objects.get(id=prog_id)
-			user.students.prog_id = program_obj
+			try:
+				user = CustomUser.objects.create_user(username=username, password=password, email=email, last_name=last_name, first_name=first_name, user_type=2)
+				user.students.registration_number = username
+				program_obj = Programmes.objects.get(id=prog_id)
+				user.students.prog_id = program_obj
 
-			user.students.gender = sex
-			user.students.level=level
-			user.save()
-			messages.success(request, 'Successfully Added Student')
-			return HttpResponseRedirect('/add_student')
+				user.students.gender = sex
+				user.students.level=level
+				user.save()
+				messages.success(request, 'Successfully Added Student')
+				return HttpResponseRedirect('/add_student')
 
-		except:
-			messages.error(request, 'Failed to Add Student, Retry')
-			return HttpResponseRedirect('/add_student')
+			except:
+				messages.error(request, 'Failed to Add Student, Retry')
+				return HttpResponseRedirect('/add_student')
+		else:
+			form=AddStudentForm(request.POST)
+			return render(request, 'AdminTemplates/add_student_template.html', {'form':form})
+
 
 def manage_hostel(request):
 	hostels=Hostels.objects.all()
