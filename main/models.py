@@ -5,6 +5,10 @@ from django.dispatch import receiver
 
 
 # Create your models here.
+class SemesterPeriod(models.Model):
+	id=models.AutoField(primary_key=True)
+	start_date=models.DateField()
+	end_date=models.DateField()
 
 class CustomUser(AbstractUser):
 	user_type_data=((1, 'SystAdmin'), (2, 'Student'))
@@ -34,20 +38,12 @@ class Programmes(models.Model):
 	objects=models.Manager()
 
 
-class Hostels(models.Model):
-	id=models.AutoField(primary_key=True)
-	hostel_name=models.CharField(max_length=100)
-	gender=models.CharField(max_length=20)
-	price=models.DecimalField(max_digits=10, decimal_places=2)
-	created_at=models.DateTimeField(auto_now_add=True)
-	updated_at=models.DateTimeField(auto_now_add=True)
-	objects=models.Manager()
-
-
 class Rooms(models.Model):
 	id=models.AutoField(primary_key=True)
-	hostel_id=models.ForeignKey(Hostels, on_delete=models.CASCADE)
 	room_name=models.CharField(max_length=100)
+	gender=models.CharField(max_length=20)
+	price=models.DecimalField(max_digits=10, decimal_places=2)
+	status=models.CharField(max_length=100)
 	created_at=models.DateTimeField(auto_now_add=True)
 	updated_at=models.DateTimeField(auto_now_add=True)
 	objects=models.Manager()
@@ -76,7 +72,7 @@ class Accommo_Bookings(models.Model):
 	student_id=models.ForeignKey(Students, on_delete=models.CASCADE)
 	room_id = models.ForeignKey(Rooms, on_delete=models.CASCADE)
 	status=models.CharField(max_length=100)
-	period=models.CharField(max_length=100)
+	period_id=models.ForeignKey(SemesterPeriod, on_delete=models.CASCADE)
 	created_at=models.DateTimeField(auto_now_add=True)
 	updated_at=models.DateTimeField(auto_now_add=True)
 	objects=models.Manager()

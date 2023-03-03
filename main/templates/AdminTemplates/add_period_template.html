@@ -1,7 +1,7 @@
 {% extends 'AdminTemplates/base.html' %}
 
 {% block page_tittle %}
-Edit Hostel | {{ hostel.hostel_name }} | Hostel ID: {{ hostel.id }}
+Add Semester Period
 {% endblock page_tittle %}
 
 {% block main_content %}
@@ -13,30 +13,20 @@ Edit Hostel | {{ hostel.hostel_name }} | Hostel ID: {{ hostel.id }}
             <!-- general form elements -->
             <div class="card card-primary">
               <div class="card-header">
-                <h3 class="card-title">Edit Hostel</h3>
+                <h3 class="card-title">Add Semester Period</h3>
               </div>
               <!-- /.card-header -->
               <!-- form start -->
-              <form role="form" action="/edit_hostel_save" method="POST">
+              <form role="form" action="/add_period_save" method="POST">
                 {% csrf_token %}
                 <div class="card-body">
                   <div class="form-group">
-                    <label>Hostel Name</label>
-                    <input type="text" class="form-control" name="hostel_name" value="{{ hostel.hostel_name }}">
-                    <input type="hidden" class="form-control" name="hostel_id" value="{{ hostel.id }}">
+                    <label>Semester Start Date</label>
+                    <input type="date" class="form-control" name="start_date" placeholder="Enter Semester Start Date">
                   </div>
                   <div class="form-group">
-                    <label>Gender</label>
-                    <select class="form-control" name="gender">
-                      <option {% if hostel.gender == "Male" %} selected {% endif %}>Male</option>
-                      <option {% if hostel.gender == "Female" %} selected {% endif %}>Female</option>
-                    </select>
-                  </div>
-                  <div class="form-group">
-                    <label>Price</label>
-                    <div class="input-group-prepend">
-                      <span class="input-group-text">$</span><input type="number" class="form-control" name="price" value="{{ hostel.price }}">
-                    </div>
+                    <label>Semester End Date</label>
+                    <input type="date" class="form-control" name="end_date" placeholder="Enter Semester End Date">
                   </div>
                   <div class="form-group">
                     {% if messages %}
@@ -54,7 +44,7 @@ Edit Hostel | {{ hostel.hostel_name }} | Hostel ID: {{ hostel.id }}
                 <!-- /.card-body -->
 
                 <div class="card-footer">
-                  <button type="submit" class="btn btn-primary btn-block">Save Hostel</button>
+                  <button type="submit" class="btn btn-primary btn-block">Add New Semester Period</button>
                 </div>
               </form>
             </div>

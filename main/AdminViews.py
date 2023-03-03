@@ -3,6 +3,7 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib import messages
 from main.models import *
 from main.forms import AddStudentForm
+from django.urls import reverse
 
 
 def admin_home(request):
@@ -12,27 +13,9 @@ def admin_home(request):
 def add_hostel(request):
 	return render(request, 'AdminTemplates/add_hostel_template.html')
 
-def add_hostel_save(request):
-	if request.method != 'POST':
-		return HttpResponse('Not Allowed')
-
-	else:
-		hostel_name=request.POST.get('hostel_name')
-		gender=request.POST.get('gender')
-		price=request.POST.get('price')
-
-		try:
-			hostel_model = Hostels(hostel_name=hostel_name, gender=gender, price=price)
-			hostel_model.save()
-			messages.success(request, 'Hostel Successfully Added')
-			return HttpResponseRedirect('/add_hostel')
-		except:
-			messages.error(request, 'Failed to Add Hostel, Retry')
-			return HttpResponseRedirect('/add_hostel')
 
 def add_room(request):
-	hostels=Hostels.objects.all()   #For Hostels to show in the add room page
-	return render(request, 'AdminTemplates/add_room_template.html', {'hostels':hostels})
+	return render(request, 'AdminTemplates/add_room_template.html')
 
 def add_room_save(request):
 	if request.method != 'POST':
@@ -40,11 +23,11 @@ def add_room_save(request):
 
 	else:
 		room_name=request.POST.get("room_name")
-		hostel_id=request.POST.get("hostels")
-		hostels=Hostels.objects.get(id=hostel_id)
+		gender=request.POST.get('gender')
+		price=request.POST.get('price')
 
 		try:
-			room=Rooms(room_name=room_name, hostel_id=hostels)
+			room=Rooms(room_name=room_name, gender=gender, price=price)
 			room.save()
 			messages.success(request, 'Room Successfully Added')
 			return HttpResponseRedirect('/add_room')
@@ -111,45 +94,13 @@ def add_student_save(request):
 			form=AddStudentForm(request.POST)
 			return render(request, 'AdminTemplates/add_student_template.html', {'form':form})
 
-
-def manage_hostel(request):
-	hostels=Hostels.objects.all()
-	return render(request, 'AdminTemplates/manage_hostel_template.html', {'hostels':hostels})
-
 def manage_room(request):
 	rooms=Rooms.objects.all()
 	return render(request, 'AdminTemplates/manage_room_template.html', {'rooms':rooms})
 
-def edit_hostel(request, hostel_id):
-	hostel=Hostels.objects.get(id=hostel_id)
-	return render(request, 'AdminTemplates/edit_hostel_template.html', {'hostel':hostel, 'id':hostel_id})
-
-def edit_hostel_save(request):
-	if request.method != 'POST':
-		return HttpResponse('<h2>METHOD NOT ALLOWED </h2>')
-	else:
-		hostel_id=request.POST.get('hostel_id')
-		hostel_name=request.POST.get('hostel_name')
-		gender=request.POST.get('gender')
-		price=request.POST.get('price')
-
-		try:
-			hostel = Hostels.objects.get(id=hostel_id)
-			hostel.hostel_name=hostel_name
-			hostel.gender=gender
-			hostel.price=price
-			hostel.save()
-			messages.success(request, 'Hostel Successfully Edited')
-			return HttpResponseRedirect('/edit_hostel/'+hostel_id)
-
-		except:
-			messages.error(request, 'Failed to Edit Room, Retry')
-			return HttpResponseRedirect('/edit_hostel/'+hostel_id)
-
 def edit_room(request, room_id):
 	room=Rooms.objects.get(id=room_id)
-	hostels=Hostels.objects.all()
-	return render(request, 'AdminTemplates/edit_room_template.html', {'room':room, 'hostels':hostels, 'id':room_id})
+	return render(request, 'AdminTemplates/edit_room_template.html', {'room':room, 'id':room_id})
 
 def edit_room_save(request):
 	if request.method != 'POST':
@@ -157,14 +108,14 @@ def edit_room_save(request):
 	else:
 		room_id = request.POST.get('room_id')
 		room_name = request.POST.get('room_name')
-		hostel_id = request.POST.get('hostel')
+		gender=request.POST.get('gender')
+		price=request.POST.get('price')
 
 		try:
 			room = Rooms.objects.get(id=room_id)
 			room.room_name=room_name
-
-			hostel=Hostels.objects.get(id=hostel_id)
-			room.hostel_id=hostel
+			room.gender=gender
+			room.price=price
 			room.save()
 			messages.success(request, 'Room Successfully Edited')
 			return HttpResponseRedirect('/edit_room/'+room_id)
@@ -172,3 +123,24 @@ def edit_room_save(request):
 		except:
 			messages.error(request, 'Failed to Edit Room, Retry')
 			return HttpResponseRedirect('/edit_room/'+room_id)
+
+
+def add_period(request):
+	return render(request, 'AdminTemplates/add_period_template.html')
+
+def add_period_save(request):
+	if request.method != "POST":
+		return HttpResponseRedirect(reverse('add_period'))
+	else:
+		start_date=request.POST.get('start_date')
+		end_date=request.POST.get('end_date')
+
+		try:
+			period=SemesterPeriod(start_date=start_date, end_date=end_date)
+			period.save()
+			messages.success(request, 'Semester Period Successfully Added')
+			return HttpResponseRedirect(reverse('add_period'))
+
+		except:
+			messages.error(request, 'Failed to Add Semester Period, Retry')
+			return HttpResponseRedirect(reverse('add_period'))

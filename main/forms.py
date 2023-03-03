@@ -8,11 +8,15 @@ class AddStudentForm(forms.Form):
 	last_name=forms.CharField(label='Surname', max_length=100, widget=forms.TextInput(attrs={"class":"form-control"}))
 	email=forms.EmailField(label='Email Address', max_length=100, widget=forms.EmailInput(attrs={"class":"form-control"}))
 	password=forms.CharField(label='Password', max_length=100, widget=forms.PasswordInput(attrs={"class":"form-control"}))
-	programmes=Programmes.objects.all()
 	program_list=[]
-	for program in programmes:
-		small_program = (program.id, program.prog_name)
-		program_list.append(small_program)
+	try:
+		programmes=Programmes.objects.all()
+		
+		for program in programmes:
+			small_program = (program.id, program.prog_name)
+			program_list.append(small_program)
+	except:
+		program_list=[]
 
 	gender_choices=(
 		('Male', 'Male'),
@@ -30,10 +34,14 @@ class EditStudentForm(forms.Form):
 	email=forms.EmailField(label='Email Address', max_length=100, widget=forms.EmailInput(attrs={"class":"form-control"}))
 	programmes=Programmes.objects.all()
 	program_list=[]
-	for program in programmes:
-		small_program = (program.id, program.prog_name)
-		program_list.append(small_program)
-
+	try:
+		programmes=Programmes.objects.all()
+		
+		for program in programmes:
+			small_program = (program.id, program.prog_name)
+			program_list.append(small_program)
+	except:
+		program_list=[]
 	gender_choices=(
 		('Male', 'Male'),
 		('Female', 'Female'),

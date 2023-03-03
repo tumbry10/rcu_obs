@@ -64,27 +64,6 @@
             </a>
           </li>
           <li class="nav-item">
-            {% url 'add_hostel' as add_hostel %}
-            <a href="{% url 'add_hostel' %}" class="nav-link {% if request.path == add_hostel %} active {% endif %}">
-              <i class="nav-icon fas fa-tachometer-alt"></i>
-              <p>
-                Add Hostel
-                <i class="right fas fa-angle-left"></i>
-              </p>
-            </a>
-          </li>
-          <li class="nav-item">
-            {% url 'manage_hostel' as manage_hostel %}
-            {% url 'edit_hostel' hostel_id=id as edit_hostel %}
-            <a href="{% url 'manage_hostel' %}" class="nav-link {% if request.path == manage_hostel %} active {% endif %} {% if request.path == edit_hostel %} active {% endif %}">
-              <i class="nav-icon fas fa-tachometer-alt"></i>
-              <p>
-                Manage Hostel
-                <i class="right fas fa-angle-left"></i>
-              </p>
-            </a>
-          </li>
-          <li class="nav-item">
             {% url 'add_room' as add_room %}
             <a href="{% url 'add_room' %}" class="nav-link {% if request.path == add_room %} active {% endif %}">
               <i class="nav-icon fas fa-tachometer-alt"></i>
@@ -101,6 +80,26 @@
               <i class="nav-icon fas fa-tachometer-alt"></i>
               <p>
                 Manage Room
+                <i class="right fas fa-angle-left"></i>
+              </p>
+            </a>
+          </li>
+          <li class="nav-item">
+            {% url 'add_period' as add_period %}
+            <a href="{{ add_period }}" class="nav-link {% if request.path == add_period %} active {% endif %}">
+              <i class="nav-icon fas fa-tachometer-alt"></i>
+              <p>
+                Add Semester Period
+                <i class="right fas fa-angle-left"></i>
+              </p>
+            </a>
+          </li>
+          <li class="nav-item">
+            {% url 'manage_period' as manage_period %}
+            <a href="{{ manage_period }}" class="nav-link {% if request.path == manage_period %} active {% endif %}">
+              <i class="nav-icon fas fa-tachometer-alt"></i>
+              <p>
+                Manage Semester Period
                 <i class="right fas fa-angle-left"></i>
               </p>
             </a>
