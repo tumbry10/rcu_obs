@@ -45,6 +45,16 @@
               </p>
             </a>
           </li>
+          <li class="nav-item">
+            {% url 'my_bookings' student_id=id as my_bookings%}
+            <a href="my_bookings/{{ student_id }}" class="nav-link {% if request.path == my_bookings %} active {% endif %}">
+              <i class="nav-icon fas fa-tachometer-alt"></i>
+              <p>
+                My Bookings
+                <i class="right fas fa-angle-left"></i>
+              </p>
+            </a>
+          </li>
         </ul>
       </nav>
       <!-- /.sidebar-menu -->

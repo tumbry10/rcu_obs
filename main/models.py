@@ -68,10 +68,15 @@ class Students(models.Model):
 
 
 class Accommo_Bookings(models.Model):
+	STATUS = (
+		('Pending', 'Pending'),
+		('Waiting For Payment', 'Waiting For Payment'),
+		('Approved', 'Approved'),
+		)
 	id=models.AutoField(primary_key=True)
 	student_id=models.ForeignKey(Students, on_delete=models.CASCADE)
 	room_id = models.ForeignKey(Rooms, on_delete=models.CASCADE)
-	status=models.CharField(max_length=100)
+	status=models.CharField(max_length=100, choices=STATUS)
 	period_id=models.ForeignKey(SemesterPeriod, on_delete=models.CASCADE)
 	created_at=models.DateTimeField(auto_now_add=True)
 	updated_at=models.DateTimeField(auto_now_add=True)

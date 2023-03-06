@@ -21,18 +21,19 @@ Book Room
                 {% csrf_token %}
                 <div class="card-body">
                   <div class="form-group">
-                    <label>Hostel</label>
+                    <label>Room</label>
+                    <input type="hidden" name="status" value="Pending">
                     <select class="form-control" name="hostels">
-                      {% for hostel in hostels %} 
-                        <option value="{{ hostel.id }}">{{ hostel.hostel_name }}</option>
+                      {% for room in rooms %} 
+                        <option value="{{ room.id }}">{{ room.room_name }}</option>
                       {% endfor %}
                     </select>
                   </div>
                   <div class="form-group">
-                    <label>Room</label>
-                    <select class="form-control" name="hostels">
-                      {% for room in rooms %} 
-                        <option value="{{ room.id }}">{{ room.room_name }}</option>
+                    <label>Semester Period</label>
+                    <select class="form-control" name="periods">
+                      {% for period in semesterperiod %} 
+                        <option value="{{ period.id }}">{{ period.start_date }} - {{ period.end_date }}</option>
                       {% endfor %}
                     </select>
                   </div>

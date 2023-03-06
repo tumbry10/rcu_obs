@@ -41,4 +41,5 @@ urlpatterns = [
     path('student_home', StudentViews.student_home, name='student_home'),
     path('book_room', StudentViews.book_room, name='book_room'),
     path('book_room_save', StudentViews.book_room_save, name='book_room_save'),
+    path('my_bookings<str:student_id>', StudentViews.my_bookings, name='my_bookings'),
 ]
